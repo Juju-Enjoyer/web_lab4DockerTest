@@ -1,0 +1,41 @@
+version: '3'
+services:
+  back:
+    container_name: my_back_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    networks:
+      - webLab
+  db:
+   container_name: my_db_container
+   build:
+     context: .
+     dockerfile: db.Dockerfile
+   expose:
+     - 2282
+   ports:
+     - "2282:2282"
+   environment:
+     POSTGRES_DB: bd
+     POSTGRES_USER: nikita
+     POSTGRES_PASSWORD: nikita
+   networks:
+     - webLab
+  front:
+    container_name: my_front_container
+    build:
+      context: ../web_lab4_front/
+      dockerfile: Dockerfile
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    networks:
+      - webLab
+networks:
+  webLab:
